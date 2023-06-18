@@ -14,6 +14,7 @@ function Action() {
     e.preventDefault();
     const member = e.target[0].value;
     const amount =parseFloat( e.target[1].value );
+    if(member){
     if(members.has(member)){
       let temp=members.get(member);
       members.set(member,temp+amount);
@@ -28,7 +29,7 @@ function Action() {
     getRes();
     const newMemberList = Array.from(members).map(([memberName, amount]) => ({ name: memberName, amount }));
     setMemberList(newMemberList);
-    
+  }
   }
   const handleSplitBills = (e) => {
     console.log(members);
@@ -56,9 +57,10 @@ function Action() {
       {(memberList && !res) && <div className="member-list">
           <h2>Member List:</h2>
           <ul className='member-item'>
+          {memberList && <b><li><div>Amount :</div>Paid By :</li></b>}
             {memberList.map((member, index) => (
               <li key={index}>
-                {member.name} Rs- {member.amount.toFixed(2)}
+                 Rs {member.amount.toFixed(2)}<div>{member.name}</div> 
               </li>
             ))}
           </ul>
@@ -70,9 +72,10 @@ function Action() {
           {res && <div className="member-list">
           <h2>Amount:</h2>
           <ul className='member-item'>
+            {res && <b><li>Payer<div>Amount</div>Reciever</li></b>}
             {res.map((member) => (
               <li  key={member}>
-                {member[0]} <b>Gives </b>Rs- {member[2].toFixed(2)} <b>To</b> {member[1]}
+                {member[0]} <div style={{color:'red'}}>  Rs {member[2].toFixed(2)}  <b><span>&#8594;</span></b></div> {member[1]}
               </li>
             ))}
           </ul>
