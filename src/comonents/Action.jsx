@@ -25,9 +25,10 @@ function Action() {
     // members.push({member,amount});
     setName('');
     setAmount('');
+    getRes();
     const newMemberList = Array.from(members).map(([memberName, amount]) => ({ name: memberName, amount }));
     setMemberList(newMemberList);
-  
+    
   }
   const handleSplitBills = (e) => {
     console.log(members);
@@ -36,6 +37,11 @@ function Action() {
         console.log(billresult);
         if(billresult.length)getRes(billresult);
       }
+  }
+  const handleReset =(e) =>{
+    getRes();
+    setMemberList(null);
+    members.clear();
   }
   return (
     <div className='container'>
@@ -60,6 +66,7 @@ function Action() {
       }
         <div>    
           <button onClick={handleSplitBills}>Split Bill</button>
+          <button onClick={handleReset}>Reset</button>
           {res && <div className="member-list">
           <h2>Amount:</h2>
           <ul className='member-item'>
