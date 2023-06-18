@@ -1,32 +1,15 @@
 import React from 'react'
 
-function billCalculator(members) {
+function billCalculator(members,expense) {
 
     console.log(members);
-    if(members.length===0)return ;
-    let mp = new Map();
-    let expense = 0;
-    let n = members.length;
-    let arr = new Array(n);
-    let m=0; 
-    for (let i = 0; i < n; i++) {
-      if(mp.has(members[i].member)){
-        let temp=mp.get(members[i].member);
-        mp.set(members[i].member,temp+members[i].amount);
-      }
-      else {
-        mp.set(members[i].member, members[i].amount);
-        m++;
-      }
-      expense +=(members[i].amount);
-      arr[i] = members[i].member;
-    }
+    let m = members.size;
     console.log(expense);
     let individual = expense / m;
     let receiver = [];
     let giver = [];
     console.log(individual);
-    for (let [member,amount] of mp) {
+    for (let [member,amount] of members) {
       console.log(member);
       console.log(amount);
       if (amount > individual) {
