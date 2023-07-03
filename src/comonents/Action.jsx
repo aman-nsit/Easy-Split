@@ -32,10 +32,10 @@ function Action() {
   }
   }
   const handleSplitBills = (e) => {
-    console.log(members);
+    // console.log(members);
       if(members){ 
         const billresult=billCalculator(members,expense);
-        console.log(billresult);
+        // console.log(billresult);
         if(billresult.length)getRes(billresult);
       }
   }
@@ -49,18 +49,19 @@ function Action() {
       <div className="form-group">
           <form action="" onSubmit={handleSubmit}>
             <Typography.Title level={4}>Squad Member</Typography.Title>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value) } placeholder='Member Name'/>
-            <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder='Amount Given'/>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value) } placeholder='Member Name' required/>
+            <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder='Amount Given' required/>
             <button>Add Member</button>
           </form>
       </div>
       {(memberList && !res) && <div className="member-list">
           <h2>Member List:</h2>
           <ul className='member-item'>
-          {memberList && <b><li><div>Amount :</div>Paid By :</li></b>}
+          {memberList && <b><li><div>Payer:</div>Amount</li></b>}
             {memberList.map((member, index) => (
               <li key={index}>
-                 Rs {member.amount.toFixed(2)}<div>{member.name}</div> 
+                 <div style={{backgroundColor:'gold',padding:'5px', borderRadius:'5px'}}>{member.name}</div>
+                 <div style={{backgroundColor:'red',padding:'5px', borderRadius:'5px'}}>Rs {member.amount.toFixed(2)}</div> 
               </li>
             ))}
           </ul>
@@ -75,7 +76,9 @@ function Action() {
             {res && <b><li>Payer<div>Amount</div>Reciever</li></b>}
             {res.map((member) => (
               <li  key={member}>
-                {member[0]} <div style={{color:'red'}}>  Rs {member[2].toFixed(2)}  <b><span>&#8594;</span></b></div> {member[1]}
+                <div style={{backgroundColor:'red',padding:'5px', borderRadius:'5px'}}>{member[0]}</div> 
+                <div style={{backgroundColor:'gold',padding:'5px', borderRadius:'5px'}}>  Rs {member[2].toFixed(2)} 
+                </div> <div style={{backgroundColor:'#5ccc25',padding:'5px', borderRadius:'5px'}}>{member[1]}</div>
               </li>
             ))}
           </ul>

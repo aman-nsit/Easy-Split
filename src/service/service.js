@@ -35,9 +35,9 @@ function billCalculator(members,expense) {
         giver.unshift([b[0] - a[0], b[1]]);
       }
     }
-    for (let i = 0; i < ans.length; i++) {
-      console.log(ans[i][0], ans[i][1], ans[i][2]);
-    }
+    // for (let i = 0; i < ans.length; i++) {
+    //   console.log(ans[i][0], ans[i][1], ans[i][2]);
+    // }
     return ans;
 }
 
