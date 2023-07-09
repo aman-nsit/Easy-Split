@@ -12,7 +12,8 @@ function Action() {
   const [res,getRes] = useState();
   const handleSubmit = (e) =>{
     e.preventDefault();
-    const member = e.target[0].value;
+    const member = e.target[0].value.toUpperCase();
+    // console.log(member);
     const amount =parseFloat( e.target[1].value );
     if(member){
     if(members.has(member)){
