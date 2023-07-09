@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Typography, Input, Button, List } from 'antd';
 import billCalculator from '../service/service';
-import { div } from '@tensorflow/tfjs';
 const members = new Map();
 let expense=0;
 function Action() {
