@@ -11,7 +11,7 @@ function Action() {
   const [no_need_to_split , set_no_split] =useState(false);
   const handleAddBill = (e) =>{
     e.preventDefault();
-    const member = e.target[0].value.toUpperCase();
+    const member = e.target[0].value;
     const amount =parseFloat( e.target[1].value );
     // if valid name for member
     if(member){
@@ -32,17 +32,13 @@ function Action() {
     set_no_split(false);
     // list of updated members 
     const newMemberList = Array.from(members).map(([memberName, amount]) => ({ name: memberName, amount }));
-    
     setMemberList(newMemberList);
   }
   }
   const handleSplitBills = (e) => {
       set_no_split(false);
       if(members){ 
-        console.log(members);
-        console.log(expense);
-        const billresult=billCalculator(members,expense);
-        console.log(billresult);
+        const billresult=billCalculator(members,expense);\
         if(billresult.length==0){
           set_no_split(true);
         }
