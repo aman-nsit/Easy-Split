@@ -38,7 +38,7 @@ function Action() {
   const handleSplitBills = (e) => {
       set_no_split(false);
       if(members){ 
-        const billresult=billCalculator(members,expense);\
+        const billresult=billCalculator(members,expense);
         if(billresult.length==0){
           set_no_split(true);
         }
