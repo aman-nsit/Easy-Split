@@ -1,53 +1,68 @@
 import React, { useState } from 'react'
-import { Typography, Input, Button, List } from 'antd';
 import billCalculator from '../service/service';
 const members = new Map();
 let expense=0;
 function Action() {
-  // const members=[];
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
-  const [memberList, setMemberList] = useState(null);
+
+  const [name , setName] = useState('');
+  const [amount , setAmount] = useState('');
+  const [memberList , setMemberList] = useState(null);
   const [res,getRes] = useState();
-  const handleSubmit = (e) =>{
+  const [no_need_to_split , set_no_split] =useState(false);
+  const handleAddBill = (e) =>{
     e.preventDefault();
-    const member = e.target[0].value;
+    const member = e.target[0].value.toUpperCase();
     const amount =parseFloat( e.target[1].value );
+    // if valid name for member
     if(member){
+    //if already has this member upgrade his expense
     if(members.has(member)){
       let temp=members.get(member);
       members.set(member,temp+amount);
     }
-    else {
-      members.set(member,amount);
+    else { 
+      members.set(member,amount); // add new member
     }
-    expense+=amount;
-    // members.push({member,amount});
+    // total expense for the whole team
+    expense+=amount;  
+    
     setName('');
     setAmount('');
     getRes();
+    set_no_split(false);
+    // list of updated members 
     const newMemberList = Array.from(members).map(([memberName, amount]) => ({ name: memberName, amount }));
+    
     setMemberList(newMemberList);
   }
   }
   const handleSplitBills = (e) => {
-    // console.log(members);
+      set_no_split(false);
       if(members){ 
+        console.log(members);
+        console.log(expense);
         const billresult=billCalculator(members,expense);
-        // console.log(billresult);
-        if(billresult.length)getRes(billresult);
+        console.log(billresult);
+        if(billresult.length==0){
+          set_no_split(true);
+        }
+        else {
+          getRes(billresult);
+        }
       }
   }
   const handleReset =(e) =>{
+    expense=0;
     getRes();
     setMemberList(null);
+    set_no_split(false);
     members.clear();
   }
   return (
     <div className='container'>
       <div className="form-group">
-          <form action="" onSubmit={handleSubmit}>
-            <Typography.Title level={4}>Squad Member</Typography.Title>
+          <form action="" onSubmit={handleAddBill}>
+            <h3 className='heading'>Add Expense Here:</h3>
             <input type="text" value={name} onChange={(e) => setName(e.target.value) } placeholder='Member Name' required/>
             <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder='Amount Given' required/>
             <button>Add Member</button>
@@ -56,28 +71,33 @@ function Action() {
       {(memberList && !res) && <div className="member-list">
           <h2>Member List:</h2>
           <ul className='member-item'>
-          {memberList && <b><li><div>Payer:</div>Amount</li></b>}
+          {memberList && <b><li><div>Payer:</div>Amount:</li></b>}
             {memberList.map((member, index) => (
               <li key={index}>
-                 <div style={{backgroundColor:'gold',padding:'5px', borderRadius:'5px'}}>{member.name}</div>
-                 <div style={{backgroundColor:'red',padding:'5px', borderRadius:'5px'}}>Rs {member.amount.toFixed(2)}</div> 
+                 <div className='payer' >{member.name}</div>
+                 <div className='amount' >Rs {member.amount.toFixed(2)}</div> 
               </li>
             ))}
           </ul>
-        </div>
+        </div>  
       }
         <div>    
           <button onClick={handleSplitBills}>Split Bill</button>
           <button onClick={handleReset}>Reset</button>
+          {
+            no_need_to_split && <div className='no_split'>
+                Don't Worry About Splitting , It's already done.
+              </div>
+          }
           {res && <div className="member-list">
           <h2>Amount:</h2>
           <ul className='member-item'>
             {res && <b><li>Payer<div>Amount</div>Reciever</li></b>}
             {res.map((member) => (
               <li  key={member}>
-                <div style={{backgroundColor:'red',padding:'5px', borderRadius:'5px'}}>{member[0]}</div> 
-                <div style={{backgroundColor:'gold',padding:'5px', borderRadius:'5px'}}>  Rs {member[2].toFixed(2)} 
-                </div> <div style={{backgroundColor:'#5ccc25',padding:'5px', borderRadius:'5px'}}>{member[1]}</div>
+                <div className='payer'>{member[0]}</div> 
+                <div className='amount'>  Rs {member[2].toFixed(2)} 
+                </div> <div className='reciever'>{member[1]}</div>
               </li>
             ))}
           </ul>
