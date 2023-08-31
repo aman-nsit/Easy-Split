@@ -1,4 +1,3 @@
-import React from 'react'
 
 class priority_queue {
   constructor() {
@@ -25,7 +24,7 @@ class priority_queue {
         this.pq[root][1] = this.pq[largest][1];
         this.pq[largest][1] = temp;
 
-        this.MaxHeapify(largest);  // recursive call to check further
+        this.heapify(largest);  // recursive call to check further
       }
   }
   // insert new element in heap .

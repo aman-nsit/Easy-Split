@@ -11,7 +11,7 @@ function Action() {
   const [no_need_to_split , set_no_split] =useState(false);
   const handleAddBill = (e) =>{
     e.preventDefault();
-    const member = e.target[0].value;
+    var member = e.target[0].value.toLowerCase();
     const amount =parseFloat( e.target[1].value );
     // if valid name for member
     if(member){
@@ -39,7 +39,7 @@ function Action() {
       set_no_split(false);
       if(members){ 
         const billresult=billCalculator(members,expense);
-        if(billresult.length==0){
+        if(billresult.length === 0){
           set_no_split(true);
         }
         else {
